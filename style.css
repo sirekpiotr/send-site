@@ -1,0 +1,769 @@
+/* SEND? — sirekapps.com
+   ----------------------------------------------------------------------
+   The same stylesheet as the other Sirek Apps product pages, retinted. Only
+   the two accent tokens and the paper ground differ; the type scale, spacing,
+   nav, sections and shot rules are shared on purpose, because five product
+   pages that each solve layout differently look like five companies.
+
+   Cobalt is the app's own accent and violet is its icon. Neither green nor red
+   appears anywhere here — inside the app those two mean SEND and DON'T SEND,
+   and a page that spends them on a link would be spending the one thing the
+   product sells.
+   ---------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light dark;
+
+  --canvas: #f2f0ec;
+  --surface: #ffffff;
+  --ink: #0a0a0b;
+  --ink-2: #6b6b73;
+  --ink-3: #9c9ca4;
+  --hairline: rgba(10, 10, 11, 0.12);
+  --brand: #2340ff;
+  --accent-cell: #7c3aed;
+
+  --gutter: 20px;
+  --wrap: 1080px;
+  --radius: 18px;
+  --radius-sm: 12px;
+
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --canvas: #000000;
+    --surface: #0e0e10;
+    --ink: #fafafa;
+    --ink-2: #9a9aa2;
+    --ink-3: #5e5e66;
+    --hairline: rgba(250, 250, 250, 0.14);
+    --brand: #6b80ff;
+    --accent-cell: #9658ff;
+  }
+}
+
+:root[data-theme="dark"] {
+  --canvas: #000000;
+  --surface: #0e0e10;
+  --ink: #fafafa;
+  --ink-2: #9a9aa2;
+  --ink-3: #5e5e66;
+  --hairline: rgba(250, 250, 250, 0.14);
+  --brand: #6b80ff;
+  --accent-cell: #9658ff;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.wrap.narrow { max-width: 720px; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.sr-only:focus {
+  position: static;
+  width: auto; height: auto;
+  clip: auto;
+  padding: 8px 12px;
+}
+
+/* Type ------------------------------------------------------------- */
+
+h1, h2, h3 {
+  margin: 0 0 0.4em;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+h1 { font-size: clamp(2.4rem, 6vw, 4rem); }
+h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); }
+h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
+
+p { margin: 0 0 1em; }
+
+.lead {
+  font-size: clamp(1.02rem, 1.6vw, 1.18rem);
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin: 0 0 0.8em;
+}
+
+em { font-style: normal; color: var(--ink); }
+
+a { color: inherit; }
+
+/* Nav -------------------------------------------------------------- */
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--canvas) 86%, transparent);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--hairline);
+}
+
+nav .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+nav a { text-decoration: none; }
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+.mark-icon { border-radius: 6px; display: block; }
+
+.nav-right { display: flex; align-items: center; gap: 18px; }
+
+.nav-links { display: flex; gap: 18px; }
+
+.nav-links a {
+  font-size: 0.92rem;
+  color: var(--ink-2);
+  padding: 6px 0;
+}
+
+.nav-links a:hover { color: var(--ink); }
+
+.theme-toggle {
+  font: inherit;
+  font-size: 0.82rem;
+  color: var(--ink-2);
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  min-height: 32px;
+}
+
+.theme-toggle:hover { color: var(--ink); }
+
+/* The hamburger, and the panel it opens.
+   ------------------------------------------------------------------
+   Two bars rather than three: the middle one is the button's own centre line
+   and the other two are drawn on it, which is what lets the whole thing become
+   a cross by rotating rather than by swapping icons.
+
+   Hidden above 760px, where the links fit on the bar and a menu button would be
+   a second way to reach what is already visible. */
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.nav-toggle-box {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 14px;
+  margin: 0 auto;
+}
+
+.nav-toggle-bar,
+.nav-toggle-bar::before,
+.nav-toggle-bar::after {
+  position: absolute;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: transform 0.22s ease, opacity 0.16s ease;
+}
+
+.nav-toggle-bar { top: 6px; }
+.nav-toggle-bar::before { content: ""; top: -6px; }
+.nav-toggle-bar::after { content: ""; top: 6px; }
+
+.nav-open .nav-toggle-bar { background: transparent; }
+.nav-open .nav-toggle-bar::before { transform: translateY(6px) rotate(45deg); }
+.nav-open .nav-toggle-bar::after { transform: translateY(-6px) rotate(-45deg); }
+
+@media (max-width: 760px) {
+  .nav-toggle { display: block; }
+
+  /* A panel under the bar rather than a full-screen takeover: there are six
+     links, and covering the page to show six links is a transition somebody
+     has to wait through twice. */
+  /* Shown and hidden, not grown and shrunk.
+     ------------------------------------------------------------------
+     The first version animated `max-height` from zero, which is the usual
+     trick and has a failure mode worth avoiding: if the transition never runs
+     — a renderer that does not animate, a paint that happens mid-transition —
+     the panel is stuck at its start value and the menu opens to a blank strip
+     twenty points tall. Toggling display cannot get stuck, and the entrance is
+     an animation on top rather than the thing doing the work. */
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    gap: 0;
+    padding: 6px var(--gutter) 12px;
+    background: var(--canvas);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .nav-open .nav-links {
+    display: grid;
+    animation: nav-drop 0.18s ease;
+  }
+
+  .nav-links a {
+    padding: 12px 0;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .nav-links a:last-child { border-bottom: 0; }
+
+  nav .wrap { position: relative; }
+
+  /* Without JS there is no button to press, so the links stay where they are
+     rather than hiding behind a menu nothing can open. */
+  html.no-js .nav-links,
+  .nav-links:not([id]) {
+    position: static;
+    max-height: none;
+    opacity: 1;
+    overflow: visible;
+    display: flex;
+    padding: 0;
+    border: 0;
+  }
+}
+
+@keyframes nav-drop {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-open .nav-links { animation: none; }
+  .nav-toggle-bar,
+  .nav-toggle-bar::before, .nav-toggle-bar::after { transition: none; }
+}
+
+/* Sections --------------------------------------------------------- */
+
+.hero { padding: clamp(56px, 9vw, 110px) 0 clamp(40px, 6vw, 72px); }
+
+.hero .lead { margin-bottom: 1em; }
+
+.section { padding: clamp(56px, 8vw, 100px) 0; }
+.section-tight { padding: clamp(36px, 5vw, 56px) 0; }
+.section-muted { background: var(--surface); border-block: 1px solid var(--hairline); }
+.section-close { text-align: center; }
+.section-close .lead { margin-inline: auto; }
+.section-close .cta-row { justify-content: center; }
+
+.section-head { max-width: 62ch; margin-bottom: clamp(28px, 4vw, 48px); }
+
+/* Calls to action -------------------------------------------------- */
+
+.cta-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.badge { display: inline-block; line-height: 0; }
+.badge img { height: 46px; width: auto; }
+
+.badge-dark { display: none; }
+
+:root[data-theme="dark"] .badge-light { display: none; }
+:root[data-theme="dark"] .badge-dark { display: inline; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .badge-light { display: none; }
+  :root:not([data-theme="light"]) .badge-dark { display: inline; }
+}
+
+.icon-dark { display: none; }
+:root[data-theme="dark"] .icon-light { display: none; }
+:root[data-theme="dark"] .icon-dark { display: block; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .icon-light { display: none; }
+  :root:not([data-theme="light"]) .icon-dark { display: block; }
+}
+
+.text-link {
+  font-size: 0.98rem;
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 2px;
+}
+
+.text-link:hover { color: var(--ink); border-color: currentColor; }
+
+/* Steps ------------------------------------------------------------ */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.step p { margin: 0; color: var(--ink-2); font-size: 0.98rem; }
+
+.step-kicker {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 8px;
+}
+
+@media (max-width: 720px) {
+  .steps { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* Feature rows ----------------------------------------------------- */
+
+.feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 5vw, 64px);
+  align-items: center;
+  padding: clamp(32px, 5vw, 56px) 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.feature-row:first-of-type { border-top: 0; padding-top: 0; }
+
+.feature-text p { color: var(--ink-2); margin: 0; }
+
+.feature-row.flip .feature-text { order: 2; }
+
+@media (max-width: 820px) {
+  .feature-row { grid-template-columns: 1fr; }
+  .feature-row.flip .feature-text { order: 0; }
+}
+
+/* The screenshots arrive inside Apple's own device artwork on a transparent
+   ground, so no radius and no background: either would draw a rectangle around
+   a shape that isn't one. The placeholder slot that used to sit here — a dashed
+   box reading BOARD, NUDGE, WATCH, WIDGETS — is gone with them. */
+/* Capped well under the 488px column it sits in. At full width a phone is bigger
+   on the page than it is in your hand, and each feature row grows past a screen.
+   Small enough that the text beside it stays the thing being read — the phone is
+   the evidence, not the argument. */
+.shot {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  display: block;
+  margin-inline: auto;
+}
+
+/* Three of the four slots ship twice and the page shows whichever matches the
+   theme, written the same way the badges and icons above are. The watch is a
+   single file: watchOS has one appearance, and a light variant of it would be
+   the same picture under a different name. */
+.shot-dark { display: none; }
+
+:root[data-theme="dark"] .shot-light { display: none; }
+:root[data-theme="dark"] .shot-dark { display: block; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .shot-light { display: none; }
+  :root:not([data-theme="light"]) .shot-dark { display: block; }
+}
+
+/* Bento ------------------------------------------------------------ */
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.bento-cell { background: var(--canvas); padding: clamp(20px, 3vw, 28px); }
+.section-muted .bento-cell { background: var(--surface); }
+.bento-cell h3 { margin-bottom: 0.35em; }
+.bento-cell p { margin: 0; color: var(--ink-2); font-size: 0.95rem; }
+
+@media (max-width: 820px) { .bento { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .bento { grid-template-columns: 1fr; } }
+
+/* Comparison table ------------------------------------------------- */
+
+.table-wrap { overflow-x: auto; }
+
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.98rem;
+  min-width: 520px;
+}
+
+.compare th, .compare td {
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.compare thead th {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.compare thead th:last-child { color: var(--brand); }
+
+.compare tbody th {
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.compare td {
+  width: 132px;
+  text-align: center;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+/* The free column is ink, the paid one is brand — same as the app's own
+   comparison. Both in orange made the two columns look equally sold, which is
+   the opposite of the point: most of these rows are things you get for free. */
+.compare td.yes { color: var(--brand); font-weight: 600; }
+.compare td:first-of-type.yes { color: var(--ink); }
+.compare td.no { color: var(--ink-3); }
+
+.fine {
+  margin-top: 20px;
+  font-size: 0.88rem;
+  color: var(--ink-3);
+  max-width: 62ch;
+}
+
+/* FAQ -------------------------------------------------------------- */
+
+details {
+  border-bottom: 1px solid var(--hairline);
+  padding: 18px 0;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+}
+
+summary::-webkit-details-marker { display: none; }
+
+summary::after {
+  content: "+";
+  color: var(--ink-3);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+details[open] summary::after { content: "–"; }
+
+details p {
+  margin: 12px 0 0;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+/* Footer ----------------------------------------------------------- */
+
+footer {
+  border-top: 1px solid var(--hairline);
+  padding: 32px 0;
+  font-size: 0.9rem;
+  color: var(--ink-3);
+}
+
+.footer-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-grid p { margin: 0; }
+
+.footer-links { display: flex; gap: 18px; }
+
+footer a { color: var(--ink-2); text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+/* Rhythm ----------------------------------------------------------- */
+/*
+   The one thing a static page cannot say: that the app is watching a gap
+   stretch. Five marks land at an even spacing, and then the sixth does not
+   come — the bar keeps going, passes the usual, and turns amber.
+
+   Timings are the app's own vocabulary rather than decoration: the marks arrive
+   evenly because that is what a rhythm is, and the colour changes exactly where
+   the "usual" marker sits because that is the only moment ago has an opinion.
+*/
+
+.rhythm {
+  margin: clamp(32px, 5vw, 52px) 0 0;
+  padding: clamp(24px, 4vw, 36px) clamp(20px, 3vw, 32px);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.section-muted .rhythm { background: var(--canvas); }
+
+.rhythm-track {
+  position: relative;
+  height: 40px;
+  margin-bottom: 18px;
+}
+
+.rhythm-line {
+  position: absolute;
+  top: 19px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--hairline);
+}
+
+.rhythm-dot {
+  position: absolute;
+  top: 12px;
+  left: var(--at);
+  width: 16px;
+  height: 16px;
+  margin-left: -8px;
+  border-radius: 5px;
+  background: var(--ink);
+  transform: scale(0);
+  animation: 12s infinite both;
+}
+
+/* Each mark arrives at its own moment, written into its own keyframes rather
+   than produced by an animation-delay — see the note above the keyframes for
+   why that distinction is the whole fix. */
+.rhythm-dot.m1 { animation-name: mark-1; }
+.rhythm-dot.m2 { animation-name: mark-2; }
+.rhythm-dot.m3 { animation-name: mark-3; }
+.rhythm-dot.m4 { animation-name: mark-4; }
+.rhythm-dot.m5 { animation-name: mark-5; }
+
+/* The gap that does not end: it starts where the last mark landed and runs on
+   past the usual, changing colour at the moment it passes. */
+.rhythm-gap {
+  position: absolute;
+  top: 19px;
+  left: 58%;
+  height: 2px;
+  width: 0;
+  border-radius: 1px;
+  background: var(--ink);
+  animation: rhythm-gap 12s infinite both;
+}
+
+.rhythm-usual {
+  position: absolute;
+  top: 4px;
+  left: 72%;
+  width: 1px;
+  height: 32px;
+  background: var(--hairline);
+}
+
+.rhythm-usual em {
+  position: absolute;
+  top: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-style: normal;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.rhythm-caption {
+  margin: 0;
+  position: relative;
+  height: 1.5em;
+  font-size: 0.98rem;
+}
+
+.rhythm-state {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.rhythm-state.is-ok { color: var(--ink-2); animation: rhythm-ok 12s infinite both; }
+.rhythm-state.is-drift { color: var(--brand); animation: rhythm-drift 12s infinite both; }
+
+/* One timeline, no delays.
+ *
+ * Every part of this figure used to carry its own `animation-delay` — the five
+ * marks staggered 0 to 3.09s, the gap at 3.9s, the captions at 4.1s. That reads
+ * correctly in the middle of a loop and falls apart at the end of one, because
+ * "88% of my cycle" lands at a different wall-clock moment for each element.
+ * Nothing finished together: the marks blinked out one at a time while the gap
+ * was still fully stretched and the caption still read "12 days, against your
+ * usual 7". That is the flicker, and slowing everything down only made it a
+ * slower flicker.
+ *
+ * So the stagger now lives inside the keyframes instead. Every element shares a
+ * single undelayed 12s timeline, each mark appears at its own percentage, and
+ * all of them go out together at 88–93% — leaving a beat of empty track before
+ * 100%, so the snap back to the 0% keyframe happens with nothing on screen.
+ *
+ * If you retime this, the rule to keep is: nothing may differ between a track's
+ * 100% and 0% keyframes unless it is invisible at both. */
+
+@keyframes mark-1 {
+  0%          { transform: scale(0); }
+  4%, 88%     { transform: scale(1); }
+  93%, 100%   { transform: scale(0); }
+}
+@keyframes mark-2 {
+  0%, 5%      { transform: scale(0); }
+  9%, 88%     { transform: scale(1); }
+  93%, 100%   { transform: scale(0); }
+}
+@keyframes mark-3 {
+  0%, 10%     { transform: scale(0); }
+  14%, 88%    { transform: scale(1); }
+  93%, 100%   { transform: scale(0); }
+}
+@keyframes mark-4 {
+  0%, 15%     { transform: scale(0); }
+  19%, 88%    { transform: scale(1); }
+  93%, 100%   { transform: scale(0); }
+}
+@keyframes mark-5 {
+  0%, 20%     { transform: scale(0); }
+  24%, 88%    { transform: scale(1); }
+  93%, 100%   { transform: scale(0); }
+}
+
+/* Starts once the last mark has landed, runs on past the usual, and changes
+   colour at exactly the point it passes — that is the only moment ago has an
+   opinion, so it is the only moment anything changes colour. */
+@keyframes rhythm-gap {
+  0%, 26%     { width: 0;   opacity: 1; background: var(--ink); }
+  44%         { width: 13%; opacity: 1; background: var(--ink); }
+  50%         { width: 15%; opacity: 1; background: var(--brand); }
+  70%, 88%    { width: 40%; opacity: 1; background: var(--brand); }
+  93%, 100%   { width: 40%; opacity: 0; background: var(--brand); }
+}
+
+@keyframes rhythm-ok {
+  0%, 28%     { opacity: 0; }
+  32%, 44%    { opacity: 1; }
+  50%, 100%   { opacity: 0; }
+}
+
+@keyframes rhythm-drift {
+  0%, 50%     { opacity: 0; }
+  56%, 88%    { opacity: 1; }
+  93%, 100%   { opacity: 0; }
+}
+
+/* Somebody who has asked for less motion gets the end of the story rather than
+   an empty box: the marks, the stretched gap, and what it says.
+ *
+ * The marks are listed one class at a time on purpose. `.rhythm-dot` alone is
+ * (0,1,0) and loses to the `.rhythm-dot.m1` rules that assign the animation, so
+ * a bare selector here would leave the animation running for exactly the person
+ * who asked for it not to — and worse than running: the global reduced-motion
+ * rule above collapses every duration to 0.01ms, which with `both` fill mode
+ * parks each mark on its 100% keyframe, where it is scaled to nothing. Asking
+ * for less motion would have emptied the figure. */
+@media (prefers-reduced-motion: reduce) {
+  .rhythm-dot.m1,
+  .rhythm-dot.m2,
+  .rhythm-dot.m3,
+  .rhythm-dot.m4,
+  .rhythm-dot.m5 { transform: scale(1); animation: none; }
+  .rhythm-gap { width: 40%; background: var(--brand); animation: none; }
+  .rhythm-state.is-ok { display: none; }
+  .rhythm-state.is-drift { opacity: 1; animation: none; }
+}
