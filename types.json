@@ -1,0 +1,114 @@
+[
+ {
+  "id": "overthinker",
+  "title": "The Overthinker",
+  "line": "You check everything and send almost none of it.",
+  "emoji": "😵‍💫",
+  "tint": "#2340FF"
+ },
+ {
+  "id": "apologiser",
+  "title": "Sorry In Advance",
+  "line": "You say sorry before you've done anything.",
+  "emoji": "🙇",
+  "tint": "#E08A3C"
+ },
+ {
+  "id": "essayist",
+  "title": "The Essayist",
+  "line": "Nobody asked for the paragraph. You sent it anyway.",
+  "emoji": "📜",
+  "tint": "#8A6BD6"
+ },
+ {
+  "id": "oneWord",
+  "title": "Man of Few Words",
+  "line": "Four words, maximum. Let them wonder.",
+  "emoji": "🤏",
+  "tint": "#4A4A52"
+ },
+ {
+  "id": "nightShift",
+  "title": "The 3AM Philosopher",
+  "line": "Nothing good has ever been typed at 3am.",
+  "emoji": "🌙",
+  "tint": "#3B4EA8"
+ },
+ {
+  "id": "exFiles",
+  "title": "The Ex Files",
+  "line": "That chapter is closed. You keep rereading it.",
+  "emoji": "💔",
+  "tint": "#B4548C"
+ },
+ {
+  "id": "unbothered",
+  "title": "Unbothered",
+  "line": "You do not chase. It shows in the numbers.",
+  "emoji": "🧊",
+  "tint": "#2C6E84"
+ },
+ {
+  "id": "menace",
+  "title": "Certified Menace",
+  "line": "It was a terrible idea and you sent it anyway.",
+  "emoji": "😈",
+  "tint": "#7A3FB0"
+ },
+ {
+  "id": "smooth",
+  "title": "Smooth Operator",
+  "line": "Confident, warm, and it lands. Annoyingly.",
+  "emoji": "😎",
+  "tint": "#2F7F70"
+ },
+ {
+  "id": "professional",
+  "title": "Strictly Business",
+  "line": "Even your flirting has an agenda item.",
+  "emoji": "💼",
+  "tint": "#8A94A6"
+ },
+ {
+  "id": "hopeful",
+  "title": "Hopeless Romantic",
+  "line": "You always think this one's going to work out.",
+  "emoji": "🌟",
+  "tint": "#D2953F"
+ },
+ {
+  "id": "hedger",
+  "title": "The Hedge Fund",
+  "line": "Every ask arrives wrapped in three maybes.",
+  "emoji": "🫣",
+  "tint": "#9A8A6E"
+ },
+ {
+  "id": "lowercase",
+  "title": "no caps ever",
+  "line": "capital letters are for people with something to prove",
+  "emoji": "🫠",
+  "tint": "#3F6FA8"
+ },
+ {
+  "id": "trailOff",
+  "title": "The Trail Off",
+  "line": "You never quite finish the...",
+  "emoji": "💭",
+  "tint": "#9A7BC4"
+ },
+ {
+  "id": "exclaimer",
+  "title": "Full Volume",
+  "line": "Three exclamation marks minimum!!!",
+  "emoji": "📣",
+  "tint": "#C9713A"
+ },
+ {
+  "id": "rookie",
+  "title": "Fresh Meat",
+  "line": "Not enough evidence yet. Keep going.",
+  "emoji": "🐣",
+  "tint": "#6E8A3E"
+ }
+]
