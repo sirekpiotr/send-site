@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guess the verdict — SEND?</title>
+<meta name="description" content="Someone sent you a text they weren't sure about. SEND it, or DON'T? Guess before the app tells you.">
+
+<!--
+  guess.html — the "guess it" page.
+
+  ── WHY THIS PAGE NEEDS NO SERVER ────────────────────────────────────────
+  Everything it shows — the message, the app's real verdict, the reason —
+  is already known at the moment the app builds the share link, so instead
+  of uploading any of it, the app base64-encodes it straight into the URL
+  fragment: send.sirekapps.com/guess.html#eyJtIjoi... A fragment never
+  reaches a server in an HTTP request, so this is not a database with one
+  row per share, it is a page that reads its own address. No KV, no worker
+  endpoint, nothing to run out of quota or go down.
+
+  The one thing this deliberately cannot do is tally votes from more than
+  one visitor back to whoever posted it — each visitor's guess lives only
+  in their own browser tab. That is Jury Mode, and it is the one version of
+  this idea that would actually need a server (see SEND?'s worker, which
+  already has the KV pattern for it).
+
+  ── THE PAYLOAD ──────────────────────────────────────────────────────────
+  { m: message, v: "SEND"|"DONT", r: reason, s: [[label,value], ...] }
+  s is optional and capped at two rows — the same two the app's own share
+  card leads with, kept in sync by hand since this file has no build step.
+-->
+
+<meta property="og:title" content="Guess the verdict">
+<meta property="og:description" content="Someone wasn't sure whether to send this. SEND, or DON'T?">
+<meta property="og:image" content="https://send.sirekapps.com/assets/verdict.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="send.css">
+<script src="theme.js"></script>
+
+<style>
+  /* Everything specific to this one page. The shared sheets give the
+     palette, the type ramp and the stamp; this is just layout. */
+
+  body { background: var(--canvas); }
+
+  .guess-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: clamp(28px, 6vw, 56px) 20px 80px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .guess-logo {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    margin-bottom: clamp(28px, 6vw, 48px);
+  }
+  .guess-logo span { color: var(--dont); }
+
+  .guess-bubble {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 22px;
+    padding: 22px 22px 24px;
+    font-size: clamp(19px, 4.4vw, 23px);
+    line-height: 1.36;
+    color: var(--ink);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  }
+
+  .guess-prompt {
+    margin: clamp(22px, 5vw, 32px) 0 18px;
+    font-family: var(--display);
+    font-weight: 900;
+    font-stretch: condensed;
+    font-size: clamp(30px, 7vw, 42px);
+    line-height: 0.98;
+    color: var(--ink);
+  }
+
+  .guess-buttons { display: flex; gap: 12px; }
+  .guess-btn {
+    flex: 1;
+    border: none;
+    border-radius: 999px;
+    padding: 18px 10px;
+    font-family: var(--display);
+    font-weight: 900;
+    font-stretch: condensed;
+    font-size: clamp(17px, 4.4vw, 20px);
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .guess-btn:active { transform: scale(0.97); }
+  .guess-btn.send { background: var(--send); color: #fff; }
+  .guess-btn.dont { background: var(--dont); color: #fff; }
+
+  /* The reveal. Hidden until a guess is made, then swapped in — no route
+     change, no reload, so the "did you get it right" beat lands instantly. */
+  .guess-reveal { display: none; }
+  .guess-reveal.shown { display: block; animation: guess-rise 0.5s ease both; }
+  .guess-vote.hidden { display: none; }
+  @keyframes guess-rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .guess-verdict-match {
+    /* block, not inline-block: the stamp below is rotated -3deg, which
+       makes its own box overhang upward — inline-block let that overhang
+       sit on top of this pill instead of after it. */
+    display: block;
+    width: max-content;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--canvas);
+    margin-bottom: 22px;
+  }
+
+  .guess-reveal .stamp { margin-top: 6px; }
+
+  .guess-reason {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 18px 0 4px;
+  }
+
+  /* Deliberately not styled like a real reason — the actual analysis is
+     the paid-adjacent part of the free app tier (verdict + reason, see
+     SEND?'s own ShareCardView comment), and this page shows the verdict
+     alone. Muted and a touch smaller so it reads as a pointer to
+     somewhere else, not as the answer itself. */
+  .guess-teaser {
+    color: var(--ink-2) !important;
+    font-size: 15px !important;
+  }
+
+  .guess-cta {
+    margin-top: clamp(28px, 6vw, 40px);
+    padding-top: clamp(20px, 4vw, 28px);
+    border-top: 1px solid var(--hairline);
+  }
+  .guess-cta .badge img { height: 50px; }
+
+  .guess-broken { text-align: center; padding-top: 15vh; }
+  .guess-broken p { color: var(--ink-2); margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="guess-wrap">
+  <a class="guess-logo" href="/">SEND<span>?</span></a>
+
+  <div id="app"></div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ── Decode ──────────────────────────────────────────────────────────
+  // base64url: '-' and '_' stand in for '+' and '/' so the payload survives
+  // being a URL fragment untouched, with padding stripped and restored.
+  function decode(hash) {
+    var s = hash.replace(/^#/, "");
+    if (!s) return null;
+    try {
+      s = s.replace(/-/g, "+").replace(/_/g, "/");
+      while (s.length % 4) s += "=";
+      var json = decodeURIComponent(escape(atob(s)));
+      var data = JSON.parse(json);
+      if (typeof data.m !== "string" || typeof data.v !== "string") return null;
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  var data = decode(location.hash);
+  var app = document.getElementById("app");
+
+  if (!data) {
+    app.innerHTML =
+      '<div class="guess-broken">' +
+      '<div class="stamp">LINK’S DEAD</div>' +
+      '<p>This one didn’t come through right. Ask whoever sent it to resend it.</p>' +
+      "</div>";
+    return;
+  }
+
+  var isSend = data.v === "SEND";
+  var verdictWord = isSend ? "SEND IT" : "DON’T SEND";
+
+  function esc(s) {
+    var d = document.createElement("div");
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  app.innerHTML =
+    '<div class="guess-bubble">' + esc(data.m) + "</div>" +
+    '<div class="guess-vote" id="vote">' +
+      '<p class="guess-prompt">Send it,<br>or don’t?</p>' +
+      '<div class="guess-buttons">' +
+        '<button class="guess-btn send" data-guess="SEND">SEND IT</button>' +
+        '<button class="guess-btn dont" data-guess="DONT">DON’T</button>' +
+      "</div>" +
+    "</div>" +
+    '<div class="guess-reveal" id="reveal">' +
+      '<div class="guess-verdict-match" id="match"></div>' +
+      '<div class="stamp' + (isSend ? " go" : "") + '">' + verdictWord + "</div>" +
+      '<p class="guess-reason guess-teaser">Why? That part only lives in the app — paste your own text and get the actual reasoning, not just the word.</p>' +
+      '<div class="guess-cta">' +
+        '<a class="badge" href="https://apps.apple.com/app/id6810178508">' +
+          '<img class="badge-light" src="assets/app-store-black.svg" alt="Download on the App Store">' +
+          '<img class="badge-dark" src="assets/app-store-white.svg" alt="Download on the App Store">' +
+        "</a>" +
+      "</div>" +
+    "</div>";
+
+  var voteEl = document.getElementById("vote");
+  var revealEl = document.getElementById("reveal");
+  var matchEl = document.getElementById("match");
+
+  document.querySelectorAll(".guess-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var guess = btn.getAttribute("data-guess");
+      var correct = guess === data.v;
+      matchEl.textContent = correct ? "You called it." : "The app disagreed.";
+      voteEl.classList.add("hidden");
+      revealEl.classList.add("shown");
+      if (navigator.vibrate) navigator.vibrate(correct ? [10, 40, 10] : 12);
+    });
+  });
+})();
+</script>
+</body>
+</html>
