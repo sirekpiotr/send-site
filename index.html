@@ -7,23 +7,30 @@
 <title>SEND? — A second opinion before you hit send. For iPhone</title>
 <link rel="icon" href="assets/icon-light.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta name="description" content="Paste the text you have rewritten four times. SEND? gives you a straight verdict, the exact lines dragging it down, and four better ways to say the same thing.">
+<meta name="description" content="Paste the text you have rewritten four times. SEND? gives you a straight verdict, the exact lines dragging it down, and better ways to say the same thing. Free on iPhone.">
 <link rel="canonical" href="https://send.sirekapps.com/">
 <meta name="color-scheme" content="light dark">
 
 <meta property="og:title" content="SEND? — A second opinion before you hit send.">
 <meta property="og:description" content="The text you have rewritten four times. Paste it in and find out how it actually lands, which words are costing you, and how to say it better.">
+<meta property="og:image" content="https://send.sirekapps.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://send.sirekapps.com/">
 <meta property="og:site_name" content="SEND?">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SEND? — A second opinion before you hit send.">
-<meta name="twitter:description" content="Paste the draft. Get a verdict, the lines dragging it down, and four better ways to say it.">
+<meta name="twitter:description" content="Paste the draft. Get a verdict, the lines dragging it down, and better ways to say it.">
+<meta name="twitter:image" content="https://send.sirekapps.com/assets/og.png">
+<meta name="apple-itunes-app" content="app-id=6810178508">
 
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="send.css">
+<link rel="stylesheet" href="fx.css">
 <script src="theme.js"></script>
 <script src="nav.js" defer></script>
+<script src="fx.js" defer></script>
 
 <script type="application/ld+json">
 {
@@ -52,6 +59,7 @@
       "operatingSystem": "iOS",
       "url": "https://send.sirekapps.com/",
       "publisher": { "@id": "https://sirekapps.com/#org" },
+      "installUrl": "https://apps.apple.com/app/id6810178508",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
   ]
@@ -73,7 +81,7 @@
     <div class="nav-right">
       <div class="nav-links" id="nav-links">
         <a href="#how">How it works</a>
-        <a href="#idea">The idea</a>
+        <a href="#guess">Try it</a>
         <a href="#features">Features</a>
         <a href="#types">Your type</a>
         <a href="#pricing">Pricing</a>
@@ -93,110 +101,222 @@
   <!-- HERO -->
   <section class="hero hero-loud">
     <div class="wash" aria-hidden="true"></div>
-    <div class="wrap">
-      <p class="kicker">For iPhone</p>
-      <h1>Should you<br><span class="hit">send this?</span></h1>
-      <p class="lead">It's 1am. You've typed it, deleted it and typed it again, and you genuinely cannot tell any more whether it sounds normal or whether it sounds like a lot.</p>
-      <p class="lead">Paste it here first. You get a straight answer, the exact words costing you, and four better ways to say the same thing — in about four seconds.</p>
-      <p class="shout">Other apps write your texts.<br>This one tells you if<br><span class="hl-red">yours actually lands.</span></p>
-      <div class="cta-row">
-        <a class="text-link" href="#how">See how it works</a>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">For iPhone</p>
+        <h1>Should you<br><span class="hit">send this?</span></h1>
+        <p class="lead">It's 1am. You've typed it, deleted it and typed it again, and you genuinely cannot tell any more whether it sounds normal or whether it sounds like a lot.</p>
+        <p class="lead">Paste it here first. A straight answer, the exact words costing you, and better ways to say the same thing — in about four seconds.</p>
+        <div class="cta-row">
+        <a class="badge" href="https://apps.apple.com/app/id6810178508" aria-label="Download SEND? on the App Store">
+          <img class="badge-light" src="assets/app-store-black.svg" alt="" width="156" height="52">
+          <img class="badge-dark" src="assets/app-store-white.svg" alt="" width="156" height="52">
+        </a>
+          <a class="text-link" href="#guess">Or test your instincts first</a>
+        </div>
+      </div>
+
+      <!-- The finished state is in the markup; fx.js plays the rest. -->
+      <div class="chat-demo" role="img" aria-label="A message being typed, stamped DON'T SEND for its apologies, then rewritten as “Ramen Friday. I'll book us for 8.” and stamped SEND IT — and the reply: omg yes">
+        <div class="chat-head">
+          <span class="chat-avatar">🍜</span>
+          <span class="chat-name">Sam</span>
+        </div>
+        <div class="chat-body">
+          <div class="row them chat-old"><span class="bub them">that place was so good lol</span></div>
+          <div class="row me chat-old"><span class="bub me">we have to go back</span></div>
+          <div class="row me" style="flex-direction:column;align-items:flex-end">
+            <span class="style-tag on">confident 😤</span>
+            <span class="bub me chat-draft">Ramen Friday. I'll book us for 8.</span>
+          </div>
+          <div class="row them"><span class="bub them chat-reply on">omg yes 🍜🍜</span></div>
+        </div>
+        <span class="stamp chat-stamp" aria-hidden="true">DON'T SEND</span>
+        <span class="chat-chip" aria-hidden="true"></span>
+        <div class="chat-input" aria-hidden="true">iMessage
+          <span class="chat-send"><svg viewBox="0 0 24 24"><path d="M12 20V5M5 11l7-7 7 7" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- THE TEXTS EVERYONE HAS TYPED -->
+  <div class="marquee" aria-label="Example texts and their verdicts">
+    <div class="marquee-row" style="--speed:70s">
+      <span class="mq"><span class="bub them">u up?</span><span class="mini">DON'T</span></span>
+      <span class="mq"><span class="bub me">congrats on the new job!! so proud of u</span><span class="mini go">SEND</span></span>
+      <span class="mq"><span class="bub them">i'm not mad i just think it's interesting that…</span><span class="mini">DON'T</span></span>
+      <span class="mq"><span class="bub me">tacos thursday?</span><span class="mini go">SEND</span></span>
+      <span class="mq"><span class="bub them">k.</span><span class="mini">DON'T</span></span>
+      <span class="mq"><span class="bub me">thanks for last night, had a really good time</span><span class="mini go">SEND</span></span>
+      <span class="mq"><span class="bub them">hey stranger 👀</span><span class="mini">DON'T</span></span>
+    </div>
+    <div class="marquee-row rev" style="--speed:80s">
+      <span class="mq"><span class="bub me">just saw this and thought of you</span><span class="mini go">SEND</span></span>
+      <span class="mq"><span class="bub them">why didn't you reply</span><span class="mini">DON'T</span></span>
+      <span class="mq"><span class="bub me">running 10 late, sorry!!</span><span class="mini go">SEND</span></span>
+      <span class="mq"><span class="bub them">can we talk</span><span class="mini">DON'T</span></span>
+      <span class="mq"><span class="bub me">free this weekend?</span><span class="mini go">SEND</span></span>
+      <span class="mq"><span class="bub them">no worries if not!!! totally fine!!!</span><span class="mini">DON'T</span></span>
+      <span class="mq"><span class="bub me">i miss us</span><span class="mini">DON'T</span></span>
+    </div>
+  </div>
 
   <!-- HOW -->
   <section class="section section-muted section-tight" id="how">
     <div class="wrap">
       <div class="steps">
-        <div class="step">
+        <div class="step reveal">
           <span class="step-kicker">Paste</span>
-          <p>The message you are about to send. Say who it is for — a crush, an ex, your boss — and what is going on.</p>
+          <p>The message you are about to send — or share it straight from Messages. Say who it is for and what is going on.</p>
         </div>
-        <div class="step">
+        <div class="step reveal" style="--d:.1s">
           <span class="step-kicker">Read</span>
           <p>SEND IT or DON'T SEND, one line on why, and the readings behind it.</p>
         </div>
-        <div class="step">
+        <div class="step reveal" style="--d:.2s">
           <span class="step-kicker">Fix</span>
-          <p>Four rewrites in four registers, keeping every detail you actually wrote.</p>
+          <p>Rewrites in up to six styles, keeping every detail you actually wrote.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WOULD YOU SEND IT? -->
+  <section class="section" id="guess">
+    <div class="wrap">
+      <div class="section-head reveal" style="margin-inline:auto;text-align:center">
+        <p class="eyebrow">Try it</p>
+        <h2 class="loud">Would <span class="hl">you</span> send it?</h2>
+        <p class="lead" style="margin-inline:auto">Five real-sounding texts. Make the call, then see what SEND? says.</p>
+      </div>
+      <div class="game reveal">
+        <div class="game-play">
+          <div class="game-meta"><span>To: <b>crush</b></span><span>11:48 pm</span></div>
+          <div class="game-thread"><div class="bub me">hey sorry to bother you again but did you see my last message?</div></div>
+          <div class="game-buttons">
+            <button class="game-btn go" type="button">SEND IT</button>
+            <button class="game-btn no" type="button">DON'T SEND</button>
+          </div>
+          <div class="game-result" aria-live="polite" hidden></div>
+          <div class="game-dots" aria-hidden="true"></div>
+        </div>
+        <div class="game-end" hidden>
+          <p class="eyebrow">Your score</p>
+          <p class="score">0/5</p>
+          <p class="lead verdict-line" style="margin-inline:auto"></p>
+          <div class="cta-row">
+          <a class="badge" href="https://apps.apple.com/app/id6810178508" aria-label="Download SEND? on the App Store">
+          <img class="badge-light" src="assets/app-store-black.svg" alt="" width="156" height="52">
+          <img class="badge-dark" src="assets/app-store-white.svg" alt="" width="156" height="52">
+        </a>
+            <button class="game-next game-again" type="button">Play again</button>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- THE ARGUMENT -->
-  <section class="section" id="idea">
-    <div class="wrap narrow">
+  <section class="section section-muted" id="idea">
+    <div class="wrap narrow reveal">
       <p class="eyebrow">Why it isn't a writing assistant</p>
       <h2 class="loud">It commits to an answer.</h2>
       <p class="lead">Ask a chatbot whether to send something and it will tell you that it depends, that both options have merit, and that you should do what feels right. That is not help. That is the same paralysis with more words.</p>
       <p class="lead">SEND? picks one. <em>Send it</em> or <em>don't</em>, and a sentence naming the actual thing — the apology you opened with, the three days you mentioned, the question you never got round to asking. You can disagree with it. You cannot come away with nothing.</p>
+      <p class="shout">Other apps write your texts.<br>This one tells you if<br><span class="hl-red">yours actually lands.</span></p>
     </div>
   </section>
 
   <!-- FEATURES -->
-  <section class="section section-muted" id="features">
+  <section class="section" id="features">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <p class="eyebrow">What you get</p>
         <h2 class="loud">A verdict, then the evidence.</h2>
       </div>
 
       <div class="feature-row">
-        <div class="feature-text">
+        <div class="feature-text reveal">
           <h3>The answer, in one word</h3>
           <p>DON'T SEND in red, or SEND IT in green, with one line saying why — specific to this message, not to messages in general. Under it, the single reading that explains the verdict: the loudest thing in what you wrote, as a number.</p>
         </div>
-        <img class="shot" src="assets/verdict.png"
+        <img class="shot reveal" src="assets/verdict.png"
              alt="SEND? on iPhone showing DON'T SEND in red, the line “You apologised twice before you asked anything”, and 34% desperation as the loudest reading" width="925" height="1981" loading="lazy">
       </div>
 
       <div class="feature-row flip">
-        <div class="feature-text">
+        <div class="feature-text reveal">
           <h3>Your own words, marked up</h3>
           <p>The draft comes back with the lines that cost you highlighted where they sit — so “sorry to bother” is not an item in a list further down, it is the third phrase of the thing you are about to send, glowing. Each one quoted back with the reason it lands badly.</p>
         </div>
-        <img class="shot" src="assets/phrases.png"
+        <img class="shot reveal" src="assets/phrases.png"
              alt="The breakdown on iPhone: quoted phrases “sorry to bother”, “just wondering” and “friday”, each with a line explaining what it does to the reader" width="925" height="1981" loading="lazy">
       </div>
 
       <div class="feature-row">
-        <div class="feature-text">
-          <h3>Four ways to say it</h3>
-          <p>Confident, flirty, casual and mysterious — genuinely four different messages, not one message with the adjectives swapped. Every concrete detail you wrote is kept: the place, the day, the plan. Nothing invented on your behalf.</p>
+        <div class="feature-text reveal">
+          <h3>Six ways to say it</h3>
+          <p>Confident, direct, casual, mysterious, warm and funny — and you only get the ones that suit this message, not six for the sake of six. Every concrete detail you wrote is kept: the place, the day, the plan. Nothing invented on your behalf.</p>
         </div>
-        <img class="shot" src="assets/rewrites.png"
-             alt="The rewrite screen on iPhone with four versions of the same message, labelled confident, flirty, casual and mysterious, each with a copy button" width="925" height="1981" loading="lazy">
+        <div class="rw-stack reveal" aria-label="Six rewrites of the same message">
+          <div class="rw-card hot"><div class="rw-top"><span class="rw-pill">Confident</span>😤<span class="rw-copy">Copy</span></div><div class="rw-text">Ramen Friday. I'll book us for 8.</div></div>
+          <div class="rw-card"><div class="rw-top"><span class="rw-pill">Direct</span>🎯<span class="rw-copy">Copy</span></div><div class="rw-text">Want to get ramen on Friday?</div></div>
+          <div class="rw-card"><div class="rw-top"><span class="rw-pill">Casual</span>🫡<span class="rw-copy">Copy</span></div><div class="rw-text">yo. ramen friday?</div></div>
+          <div class="rw-card"><div class="rw-top"><span class="rw-pill">Mysterious</span>🌚<span class="rw-copy">Copy</span></div><div class="rw-text">friday. 8pm. bring an appetite.</div></div>
+          <div class="rw-card"><div class="rw-top"><span class="rw-pill">Warm</span>🫶<span class="rw-copy">Copy</span></div><div class="rw-text">been craving ramen with you all week. friday?</div></div>
+          <div class="rw-card"><div class="rw-top"><span class="rw-pill">Funny</span>😂<span class="rw-copy">Copy</span></div><div class="rw-text">ramen friday or i riot.</div></div>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <div class="feature-row flip">
-        <div class="feature-text">
-          <h3>Built to be screenshotted</h3>
-          <p>Every verdict comes out as a card you can send straight to the group chat — with or without the message itself. Which is, if we are honest, what you were going to do anyway.</p>
-        </div>
-        <img class="shot" src="assets/home.png"
-             alt="The SEND? home screen on iPhone, with example messages drifting past above the wordmark" width="925" height="1981" loading="lazy">
+  <!-- SHARING -->
+  <section class="section section-muted" id="share">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Built for the group chat</p>
+        <h2 class="loud">Three ways to share it.</h2>
+        <p class="lead">Which is, if we are honest, what you were going to do anyway.</p>
       </div>
+      <div class="share-grid">
+        <div class="share-card reveal">
+          <div class="share-vis" aria-hidden="true"><div><p class="q">“i think we should talk”</p><span class="stamp">DON'T SEND</span></div></div>
+          <h3>Reveal it</h3>
+          <p>The verdict as a card, with or without the message on it.</p>
+        </div>
+        <div class="share-card reveal" style="--d:.1s">
+          <div class="share-vis guess" aria-hidden="true"><div><p class="q">“had a really good time last night”</p><span class="stamp ink">SEND OR DON'T?</span></div></div>
+          <h3>Let them guess</h3>
+          <p>Friends call it before they see the answer. Arguments follow.</p>
+        </div>
+        <div class="share-card reveal" style="--d:.2s">
+          <div class="share-vis selfie" aria-hidden="true"><span class="face">😬</span><span class="stamp">DON'T SEND</span></div>
+          <h3>Selfie</h3>
+          <p>Your face when you read the verdict, stamped with it. Stays on your phone until you share it.</p>
+        </div>
+      </div>
+      <p class="from-messages reveal"><span class="ico">💬</span><span><b>Straight from Messages.</b> Share a screenshot or a selected text to SEND? and it opens ready to check — no copying, no switching back and forth.</span></p>
     </div>
   </section>
 
   <!-- THE SIXTEEN -->
   <section class="section" id="types">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">New</p>
+      <div class="section-head reveal">
+        <p class="eyebrow">Your texting type</p>
         <h2 class="loud">Sixteen types.<br><span class="hl">You are one of them.</span></h2>
-        <p class="lead">Check enough messages and SEND? works out what kind of texter you actually are — from your scores, your hours, who you write to and how you type. Then it hands you a badge and you can argue about it in the group chat.</p>
+        <p class="lead">Check four messages and SEND? works out what kind of texter you actually are — from your scores, your hours, who you write to and how you type. Then it hands you a badge and you can argue about it in the group chat.</p>
         <p class="lead"><strong>It reads none of your messages to do it.</strong> Every number behind a type is counted on your phone as you go and nothing you wrote is kept. There is no history here to go back through, which is the whole point.</p>
+        <p class="unlock-note">✨ Your type unlocks on your fourth check</p>
       </div>
 
       <div class="feature-row">
-        <div class="feature-text">
+        <div class="feature-text reveal">
           <h3>One type, not a collection</h3>
           <p>You do not unlock these. You are one of them, and it only changes when you do — a type that flipped every time you checked a message would be a mood ring, not a personality. Tap the badge, turn it over in your hand, send it to whoever needs to see it.</p>
         </div>
-        <img class="shot" src="assets/badge.png"
+        <img class="shot reveal" src="assets/badge.png"
              alt="The SEND? profile screen on iPhone showing the Hedge Fund badge, the line “Every ask arrives wrapped in three maybes”, and the count of hedges behind it"
              width="925" height="1981" loading="lazy">
       </div>
@@ -287,18 +407,18 @@
   </section>
 
   <!-- PRICING -->
-  <section class="section" id="pricing">
-    <div class="wrap narrow">
+  <section class="section section-muted" id="pricing">
+    <div class="wrap narrow reveal">
       <p class="eyebrow">Pricing</p>
       <h2 class="loud">Three checks, free.</h2>
-      <p class="lead">The first three are the real thing, not a trial version of it — the full read, the phrases, the rewrites. After that, checking a message needs Pro.</p>
+      <p class="lead">Every free check gets the verdict and the reason. Pro unlocks the rest, on every message: the exact phrases dragging it down, whether they are likely to reply, the thread counts, every rewrite — and your texting type.</p>
       <p class="lead">Pro is <em>$3.99 a week</em> or <em>$24.99 a year</em>, which works out at about 48 cents a week. Prices vary by country. It renews until you cancel, and you cancel in the App Store rather than by emailing us.</p>
     </div>
   </section>
 
   <!-- PRIVACY -->
-  <section class="section section-muted" id="privacy">
-    <div class="wrap narrow">
+  <section class="section" id="privacy">
+    <div class="wrap narrow reveal">
       <p class="eyebrow">Privacy</p>
       <h2 class="loud">Nobody reads this but you.</h2>
       <p class="lead">There is no account and no sign-up, so there is nothing for a message to be attached to. Nothing you type is stored — a draft exists for as long as it takes to judge it, and then it is gone. There is no history to go back through, by design.</p>
@@ -307,10 +427,17 @@
   </section>
 
   <!-- CLOSE -->
-  <section class="section section-close">
-    <div class="wrap narrow">
-      <h2 class="loud">Don't send it yet.</h2>
-      <p class="lead">Coming to the App Store.</p>
+  <section class="section section-close section-muted">
+    <div class="wrap narrow reveal">
+      <span class="stamp">DON'T SEND</span>
+      <h2 class="loud">…not before you check it.</h2>
+      <p class="lead">Free on iPhone. No account, ever.</p>
+      <div class="cta-row">
+      <a class="badge" href="https://apps.apple.com/app/id6810178508" aria-label="Download SEND? on the App Store">
+          <img class="badge-light" src="assets/app-store-black.svg" alt="" width="156" height="52">
+          <img class="badge-dark" src="assets/app-store-white.svg" alt="" width="156" height="52">
+        </a>
+      </div>
     </div>
   </section>
 
