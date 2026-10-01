@@ -267,7 +267,7 @@
 .share-vis {
   position: relative; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden;
   display: grid; place-items: center; text-align: center;
-  background: linear-gradient(160deg, #2340ff, #7c3aed);
+  background: linear-gradient(160deg, #3d5bff, #1a2fd6);
   color: #fff;
 }
 .share-vis .q { font-size: 15px; opacity: .9; margin-bottom: 12px; padding: 0 18px; }
@@ -319,3 +319,16 @@
 .share-vis .q { opacity: 1; font-weight: 600; }
 .share-card .share-vis .q { color: #fff; }
 @media (max-width: 900px) { .chat-demo { aspect-ratio: 380 / 470; } }
+
+/* ── HISTORY MOCK ──────────────────────────────────────────────────── */
+.share-grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 820px) { .share-grid { grid-template-columns: 1fr; } }
+.history-mock {
+  background: var(--canvas); border: 1px solid var(--hairline); border-radius: 22px;
+  padding: 14px 18px 18px; max-width: 380px; width: 100%; margin-inline: auto;
+}
+.hm-day { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); margin: 10px 0 6px; }
+.hm-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--hairline); font-size: 15px; }
+.hm-row:last-child { border-bottom: 0; }
+.hm-row span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hm-row .mini { flex: none; transform: none; }
